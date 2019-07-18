@@ -1,0 +1,75 @@
+#NavbarContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: dodgerblue;
+  color: white;
+}
+#NavbarContainer > a {
+  text-decoration: none;
+  color: white;
+}
+
+#allSchoolContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+#allStudentsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
+
+#schoolCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid black;
+  width: 33%;
+  height: 100%;
+  border-radius: 10%;
+}
+
+#studentCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  border: 2px solid black;
+  height: 100%;
+  width: 20%;
+  border-radius: 10%;
+}
+.schoolImg {
+  height: 20%;
+  width: 100%;
+}
+
+#destoryBtn {
+  background-color: red;
+  color: white;
+  width: 50%;
+
+}
+
+#errors {
+  color: red;
+  display: flex;
+  justify-content: center;
+
+}
+
+.active {
+ font-weight: bolder;
+}
