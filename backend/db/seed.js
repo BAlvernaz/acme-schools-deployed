@@ -15,4 +15,4 @@ const seed = async () => {
   await School.create({name: 'Cal Berkeley', image:'http://3b9m3d3keq0q4enwal2laffp.wpengine.netdna-cdn.com/wp-content/uploads/2014/12/UC-Berkeley.jpg'})
 }
 
-module.exports = seed()
+module.exports = seed

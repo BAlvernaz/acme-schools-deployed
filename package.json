@@ -18,6 +18,7 @@
   },
   "scripts": {
     "postinstall": "npm run webpack",
+    "start": "node ./backend/server/server.js",
     "webpack": "webpack",
     "webpack:dev": "npm run webpack -- --watch --mode=development",
     "start:dev": "npm run webpack:dev & nodemon ./backend/server/server.js --ignore ../../dist --ignore ../../src"

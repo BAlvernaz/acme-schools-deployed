@@ -2,7 +2,11 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 const path = require('path');
+const seed = require('../db/seed')
 
+if (process.env.SEED) {
+  seed()
+}
 app.use(express.static(path.join(__dirname, '../../dist')))
 app.use(express.json());
 app.use(express.urlencoded());
