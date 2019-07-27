@@ -9,19 +9,23 @@ const Student = db.define('students',{
   },
   firstName: {
     type: Sequelize.STRING,
-    notNull: false
+    allowNull: false
   },
   lastName: {
     type: Sequelize.STRING,
-    notNull: false
+    allowNull: false
   },
   email: {
     type: Sequelize.STRING,
-    notNull: false,
+    allowNull: false,
     validate: {
       isEmail: true
     },
     unqiue: true
+  },
+  password: {
+    type: Sequelize.STRING,
+    allowNull: false
   },
   gpa: {
     type: Sequelize.DECIMAL,

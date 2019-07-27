@@ -7,7 +7,7 @@ import Schools from './Schools'
 import Students from './Students'
 import { loadAll } from '../store'
 import School from './School'
-
+import Login  from './Login'
 class Routes extends React.Component {
   componentDidMount() {
     this.props.getAll()
@@ -21,6 +21,7 @@ class Routes extends React.Component {
         <Route exact path="/schools" component={Schools} />
         <Route path="/schools/:id" component={School} />
         <Route path="/students" component={Students} />
+        <Route path="/login" component={Login} />
       </div>
     </HashRouter>
     )
