@@ -1,7 +1,9 @@
 const db = require('../db')
 const Sequelize = require('sequelize')
+const crypto = require('crypto')
+const saltHash = require('../utils')
 
-const Student = db.define('students',{
+const Student = db.define('student',{
   id: {
     type: Sequelize.UUID,
     primaryKey: true,
@@ -34,6 +36,13 @@ const Student = db.define('students',{
       max: 4
     }
   }
+},
+{
+  hooks: {
+    beforeCreate: student => {
+      student.password = saltHash(student.password)
+  }
+},
 })
 
 module.exports = Student

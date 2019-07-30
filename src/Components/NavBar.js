@@ -2,23 +2,17 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { popularHelper, topSchoolHelper } from "../helpers";
-import axios from "axios";
+import { logout } from '../store'
 
-const NavBar = ({ students, schools }) => {
+const NavBar = ({ students, schools, loggedInUser, handleLogout }) => {
   const mostPopular = popularHelper(students, schools);
   const topSchool = topSchoolHelper(students, schools);
-  const logout = async () => {
-    const response = await axios.delete("/api/session");
-    delete document.cookie;
-    console.log(response.data)
-
-  };
   return (
     <div id="NavbarContainer">
       <h1>Acme Schools</h1>
       <NavLink activeClassName="active" to="/login">
-        {document.cookie ? (
-          <button onClick={() => logout()}>Logout {document.cookie}</button>
+        { loggedInUser ?  (
+          <button type="submit" onClick={() => handleLogout()}>Logout {loggedInUser}</button>
         ) : (
           "Login"
         )}{" "}
@@ -57,11 +51,18 @@ const NavBar = ({ students, schools }) => {
   );
 };
 
-const stateToProps = ({ students, schools }) => {
+const stateToProps = ({ students, schools, loggedInUser }) => {
   return {
     students,
-    schools
+    schools,
+    loggedInUser
   };
 };
 
-export default connect(stateToProps)(NavBar);
+const dispatchToProps = dispatch => {
+  return {
+    handleLogout: () => dispatch(logout())
+  }
+}
+
+export default connect(stateToProps, dispatchToProps)(NavBar);

@@ -6,6 +6,8 @@ const GET_ALL = "GET_ALL";
 const GOING_TO_SCHOOL = "GOING_TO_SCHOOL";
 const NEW_STUDENT = "NEW_STUDENT";
 const DESTROY_STUDENT = "DESTROY_STUDENT";
+const LOGON_STUDENT = "LOGON_STUDENT"
+const LOGOUT_STUDENT= "LOGOUT_STUDENT"
 
 const getAll = data => ({
   type: GET_ALL,
@@ -26,6 +28,16 @@ const deletedStudent = studentId => ({
   type: DESTROY_STUDENT,
   studentId
 });
+
+const signInStudent = email => ({
+  type: LOGON_STUDENT,
+  email
+})
+
+const signOutStudent = () => ({
+  type: LOGOUT_STUDENT
+})
+
 
 export const loadAll = () => {
   return async dispatch => {
@@ -59,9 +71,24 @@ export const destroyStudent = studentId => {
   };
 };
 
+export const login = logonInfo => {
+  return async dispatch => {
+  const response = await axios.post(`/api/session`, logonInfo)
+  dispatch(signInStudent(response.data))
+  }
+}
+
+export const logout = () => {
+  return async dispatch => {
+    await axios.delete('/api/session')
+    dispatch(signOutStudent())
+  }
+}
+
 const initState = {
   students: [],
-  schools: []
+  schools: [],
+  loggedInUser: ''
 };
 
 const reducer = (state = initState, action) => {
@@ -87,6 +114,12 @@ const reducer = (state = initState, action) => {
           student => student.id !== action.studentId
         )
       };
+      break;
+    case LOGON_STUDENT:
+      state = {...state, loggedInUser: action.email}
+      break;
+    case LOGOUT_STUDENT:
+      state = {...state, loggedInUser: ""}
       break;
   }
   return state;

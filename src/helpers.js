@@ -38,3 +38,4 @@ export const topSchoolHelper = (students, schools) => {
   const sortSchools = schools.sort((a, b) => b.averageGPA - a.averageGPA);
   return sortSchools[0];
 };
+

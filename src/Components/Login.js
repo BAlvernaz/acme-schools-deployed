@@ -1,9 +1,10 @@
 import React from 'react'
-import axios from 'axios'
+import { connect } from "react-redux";
+import { login }  from "../store"
 
 class Login extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       email: "",
       password: ""
@@ -15,13 +16,10 @@ class Login extends React.Component {
     this.setState({[ev.target.name]: ev.target.value})
   }
 
-  async handleClick(ev) {
+  handleClick(ev) {
     ev.preventDefault()
-    const response = await axios.post('/api/session', this.state)
-    if(response.data) {
-      window.location.hash = '/'
-      document.cookie = response.data
-    }
+    this.props.handleLogin(this.state)
+    window.location.hash = "/"
   }
   render() {
     const { email, password} = this.state
@@ -34,10 +32,15 @@ class Login extends React.Component {
       <label htmlFor="password">
       Password <input type="password" name="password" value={password} onChange={onChange} />
       </label>
-      <button onClick={handleClick}>Button</button>
+      <button type="submit" onClick={handleClick}>Sign In</button>
     </form>
   )
   }
 }
 
-export default Login
+const dispatchToprops = dispatch => {
+  return {
+    handleLogin: logonInfo => dispatch(login(logonInfo))
+  }
+}
+export default connect(null, dispatchToprops)(Login)

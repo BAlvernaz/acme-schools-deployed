@@ -6,6 +6,7 @@ const seed = require("../db/seed");
 const session = require("express-session");
 const { Student } = require('../db/index')
 const cookieParser = require('cookie-parser')
+const saltHash = require('../db/utils')
 
 if (process.env.SEED) {
   seed();
@@ -34,6 +35,7 @@ app.get("/", (req, res, next) => {
 
 app.post('/api/session', async (req, res, next) => {
   const {email, password} = req.body
+  try {
   if(email && password) {
     const loginUser = await Student.findOne({
       where: {
@@ -41,27 +43,28 @@ app.post('/api/session', async (req, res, next) => {
       }
     })
     if (loginUser) {
-      if(loginUser.password === password) {
+      if(loginUser.password === saltHash(password)) {
        req.session.email = email
       res.status(200).send(req.session.email)
       } else {
-        console.log("Wrong Password")
+        res.status(401).send("Unautorized, wrong password")
       }
     } else {
-      console.log( "create an account")
+      res.status(401).send("Unautorized, Please Create An Account")
     }
   } else {
-    console.log('Enter Creditials')
+    res.status(401).send("Unautorized, Enter Credentials to Continue")
   }
-
+  } catch (ex) {
+    next(ex)
+  }
 })
 
 app.delete("/api/session", (req, res, next) => {
-  console.log(req.session.email)
   if (req.session.email) {
     delete req.session.email;
   }
-  res.status(204).send("logged out");
+  res.sendStatus(200);
 });
 
 app.listen(port, () => console.log(`listening on port ${port}`));
